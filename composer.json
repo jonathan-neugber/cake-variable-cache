@@ -1,0 +1,30 @@
+{
+    "name": "jonathan-neugber/cake-variable-cache",
+    "description": "A simple config based variable cache plugin for CakePHP 3",
+    "license": "MIT",
+    "type": "cakephp-plugin",
+    "extra": {
+        "installer-name": "Variable Cache"
+    },
+    "require": {
+        "cakephp/plugin-installer": "*",
+        "codekanzlei/cake-cktools": "1.2.*",
+        "cakephp/cakephp": "~3.4",
+        "josegonzalez/cakephp-queuesadilla": "*",
+        "php": ">=7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "VariableCache\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "VariableCache\\Test\\": "tests",
+            "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
+        }
+    }
+}

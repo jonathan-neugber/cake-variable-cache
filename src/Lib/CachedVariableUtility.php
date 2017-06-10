@@ -56,9 +56,7 @@ class CachedVariableUtility
 
         $variable->execution_status = CachedVariable::EXECUTION_INITIAL;
         $variable->config = Hash::merge($defaultConfig, $config);
-        $variable->content = [
-            'value' => false,
-        ];
+        $variable->content = null;
 
         if (!is_null($parent)) {
             $variable->parent_id = $parent->id;
@@ -83,6 +81,10 @@ class CachedVariableUtility
         }
 
         foreach ($variables as $variable) {
+            if (array_key_exists($variable->execution_status, CachedVariable::getSkippableExecutionStatus())) {
+                continue;
+            }
+
             /*
              * If variable requires execution -> don't add dependent vars
              * Else -> check children

@@ -16,13 +16,12 @@ trait DynamicCalculationTrait
      *
      * @param string $cachedVariableName Name of the variable.
      * @param array  $args               Arguments for the callback function.
-     * @param array  $constructorArgs    Constructor arguments for the class.
      * @return mixed
      * @throws \Exception
      */
-    public static function calculate(string $cachedVariableName, array $args = [], array $constructorArgs = [])
+    public static function calculate(string $cachedVariableName, ...$args)
     {
-        $object = new self(...$constructorArgs);
+        $object = new self();
 
         $cachedVariableName = 'calculate' . Inflector::camelize($cachedVariableName);
 

@@ -74,6 +74,8 @@ class DatabaseCacheProvider implements CacheProviderInterface
     public function updateVariable(CachedVariable $variable): CachedVariable
     {
         if ($this->_table->save($variable)) {
+            $this->_table->recover();
+
             return $variable;
         }
 

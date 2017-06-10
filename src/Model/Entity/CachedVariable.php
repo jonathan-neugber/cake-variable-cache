@@ -55,6 +55,20 @@ class CachedVariable extends Entity
         ];
     }
 
+    /**
+     * Returns a type map of all execution status that can be skipped when adding to the queue.
+     *
+     * @return array
+     */
+    public static function getSkippableExecutionStatus(): array
+    {
+        return self::getTypeMap(
+            self::EXECUTION_FAILED,
+            self::EXECUTION_PENDING,
+            self::EXECUTION_ONGOING
+        );
+    }
+
 
     /**
      * Returns whether this variable requires an execution.
@@ -90,11 +104,11 @@ class CachedVariable extends Entity
 
         $args = [];
 
-        if (isset($config['args'])) {
-            $args = $config['args'];
+        if (isset($this->config['args'])) {
+            $args = $this->config['args'];
         }
 
-        $value = $callback($this->name, $args);
+        $value = $callback($this->name, ...$args);
 
         $this->content = $value;
 

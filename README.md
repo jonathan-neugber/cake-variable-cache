@@ -32,6 +32,14 @@ Open a terminal in your project-folder and run these commands:
 
 #### 4. Add configuration to your `config/app.php`
 
+```php
+use Josegonzalez\CakeQueuesadilla\Queue\Queue;
+use VariableCache\Lib\Engine\DatabaseCacheProvider;
+use VariableCache\Lib\QueuesadillaCallbacks;
+use VariableCache\Model\Entity\CachedVariable;
+```
+
+```php
         'VariableCache' => [
             'DataProvider' => [
                 'className' => DatabaseCacheProvider::class
@@ -48,6 +56,7 @@ Open a terminal in your project-folder and run these commands:
             ],
             'variables' => []
         ]
+```
 
 #### 5. Migrations
 
@@ -64,7 +73,7 @@ Lets say you want to calculate a statistic:
 ```php
 class Statistic
 {
-    public static function calculateStatistic($amount)
+    public static function calculateStatistic($name, $amount)
     {
         return 20000 * $amount;
     }
@@ -83,7 +92,7 @@ In the `VariableCache.variables` section of the configuration add the following:
         200 // this will be passed as the first argument
     ],
     'variables' => [
-        'foo' => [
+        'bar' => [
             'callback' => ['\Statistics', 'calculateStatistic'],
             'interval' => '30 seconds',
             'args' => [
@@ -106,7 +115,7 @@ This will create the cached variables in the Database.
 
 Execute the following commands in parallel in a terminal in your project-folder and run this command:
 
-    $ bin/cake VariableCache.CachedVariables update
+    $ bin/cake VariableCache.CachedVariables
 
 and
 
@@ -148,7 +157,7 @@ class Statistic
 
     public static function calculateBar($amount)
     {
-        return 20000 * $amount;
+        return CachedVariableUtility::get('foo')->content * $amount;
     }
 }
 ```
@@ -162,7 +171,7 @@ class Statistic
         200 // this will be passed as the first argument
     ],
     'variables' => [
-        'foo' => [
+        'bar' => [
             'callback' => ['\Statistics', 'calculate'],
             'interval' => '30 seconds',
             'args' => [
@@ -172,6 +181,11 @@ class Statistic
     ]
 ]
 ```
+
+#### Reset
+This will reset all main cached variables so that a new execution is required.
+
+    $ bin/cake VariableCache.CachedVariables reset
 
 ## TODO
 
